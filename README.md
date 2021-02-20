@@ -22,7 +22,7 @@ sls plugin install -n serverless-python-requirements
 远程部署: sls deploy
 查看日志: sls logs -f app
 ```
-部署之后，会有一个endpoints，这个是上传图片的接口
+部署之后，会有一个endpoints，上传接口是: `https://xxxx.execute-api.ap-northeast-1.amazonaws.com/dev/upload`
 ![](lambda.png)
 
 替换上传[接口](https://github.com/JKme/Screenshooter/blob/master/Screenshooter/Program.cs#L203)之后编译即可使用。
