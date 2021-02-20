@@ -2,7 +2,9 @@
 ## 源代码 : [https://github.com/FortyNorthSecurity/Screenshooter](https://github.com/FortyNorthSecurity/Screenshooter)
 ## 功能
 截图之后上传到slack可以直接查看：
+
 ![](screen.gif)
+
 ## 新增上传图片函数（网上抄的）
 上传截图到AWS的lambda，然后转发给slack的机器人，这样截图之后可以直接在slack里面看得到。
 ### 部署lambda
