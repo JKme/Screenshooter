@@ -1,25 +1,28 @@
 
-### source : [Screenshooter]<https://github.com/FortyNorthSecurity/Screenshooter>
-# Screenshooter
-
-## This tool was created to take full screenshots or a recording of the user's desktop(s) when beacon doesn't want to work. 
-
-Update: Can now record video of the desktop as well for X amount of time, *default is 10s*. This MUST be done by dropping the exe to the system first and will not work through execute-assembly.
-
-To use, run the file and it will create a screenshot and save it in the current user's AppData\Roaming directory with a timestamped name. You can also pass it a flag for the location/filename where you want it saved. For some examples:
-
-## Usage
-
-The application takes in 0-3 flags as input. These flags *need* to be in the correct order to work (caveat is record functionality)! See the examples below. If you want a screen recording, you must specify "record" as the first positional argument. You can then either specify the path, the path and how long to record, or just how long to record. The length of the recording is in seconds.
-
+## 源代码 : [https://github.com/FortyNorthSecurity/Screenshooter](https://github.com/FortyNorthSecurity/Screenshooter)
+## 功能
+截图之后上传到slack可以直接查看：
+![](screen.gif)
+## 新增上传图片函数（网上抄的）
+上传截图到AWS的lambda，然后转发给slack的机器人，这样截图之后可以直接在slack里面看得到。
+### 部署lambda
+首先修改`lambda/app.py`文件,替换自己的slack的token和channel，然后部署到AWS：
 ```
-Screenshooter.exe
-Screenshooter.exe C:\Users\Public\Documents\
-Screenshooter.exe C:\Users\Public\Documents\screenshot.png
+cd lambda
+virtualenv venv -p python3
+. venv/bin/activate
+pip install Flask
+pip freeze > requirements.txt
+sls plugin install -n serverless-wsgi
+sls plugin install -n serverless-python-requirements
 
-- To record the screen(s) (must drop on system first and then use the execute command in beacon):
-Screenshooter.exe record
-Screenshooter.exe record 30
-Screenshooter.exe record c:\users\test\desktop\vid.mp4
-Screenshooter.exe record c:\users\test\desktop\vid.mp4 30
+本地测试: sls wsgi serve
+远程部署: sls deploy
+查看日志: sls logs -f app
 ```
+部署之后，会有一个endpoints，这个是上传图片的接口
+![](lambda.png)
+
+替换上传[接口](https://github.com/JKme/Screenshooter/blob/master/Screenshooter/Program.cs#L203)之后编译即可使用。
+
+PS: 直接修改源代码上传到slack也是可以的
