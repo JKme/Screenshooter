@@ -7,7 +7,7 @@
 
 ## 新增上传图片函数（网上抄的）
 上传截图到AWS的lambda，然后转发给slack的机器人，这样截图之后可以直接在slack里面看得到。
-### 部署lambda
+### ~~部署lambda(截屏文件2M左右lambda函数会出错，建议部署自己服务器或者cloudfront之类的)~~
 首先修改`lambda/app.py`文件,替换自己的slack的token和channel，然后部署到AWS：
 ```
 cd lambda
